@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Commandes{% endblock %}
+
+{% block body %}
+    <h1>Mes Commandes</h1>
+    <p>Retrouver toutes vos commandes</p>
+    <hr>
+
+    {% if orders is not empty %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <th scope="row">{{ order.id }}</th>
+                        <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
+                        <td>
+                            {% if order.status == 0 %}
+                                En attente
+                            {% elseif order.status == 1 %}
+                                Payé
+                            {% elseif order.status == 2 %}
+                                Expédié
+                            {% else %}
+                                Annulé
+                            {% endif %}
+                        </td>
+                        <td>{{ order.total | number_format(2) }} €</td>
+                        <td><a href="{{ path('order_details', {'reference': order.reference}) }}" class="btn btn-info">Voir</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucune commande trouvée.</p>
+    {% endif %}
+{% endblock %}

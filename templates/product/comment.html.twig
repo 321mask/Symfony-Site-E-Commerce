@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Poster un commentaire
+{% endblock %}
+
+{% block body %}
+
+    <h1>Poster un commentaire sur {{product.name}}</h1>
+
+    {% if product.getProductFromUser(app.user) %}
+        {% if product.getCommentFromUser(app.user) %}
+            {{form(form)}}
+        {% else %}
+            <div class="alert alert-danger">
+            Vous avez déjà laissé un commentaire pour ce produit.
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-danger">
+        Vous ne pouvez pas commenter un produit que vous n'avez pas acheté.
+        </div>            
+    {% endif %}
+    
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte
+{% endblock %}
+
+{% block body %}
+	<h1 class="border-bottom border-5">Bienvenue
+		{{app.user.firstName}}
+		{{app.user.lastName}}
+		sur votre compte.
+	</h1>
+
+	<div class="mt-4">
+		<ul class="list-group">
+			<li class="list-group-item list-group-item-action">
+				<a href="{{path('resetPassword')}}" class="btn">Modifier le mot de passe</a>
+			</li>
+			<li class="list-group-item list-group-item-action" >
+				<a href="{{path('account_address')}}" class="btn">Gérer mes adresses</a>
+			</li>
+			<li class="list-group-item list-group-item-action">
+			<a href="{{path('account_order')}}" class="btn">Mes commandes</li>
+		</ul>
+	</div>
+
+
+{% endblock %}

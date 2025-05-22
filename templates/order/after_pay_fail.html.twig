@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement Échoué{% endblock %}
+
+{% block body %}
+<div class="container text-center mt-5">
+    <h1 class="text-danger">❌ Paiement Échoué</h1>
+    <p class="mt-3">Il semble que votre paiement n'ait pas été effectué. Veuillez réessayer.</p>
+
+    <div class="mt-4">
+        <a href="{{ path('cart') }}" class="btn btn-warning">Retour au panier</a>
+        <a href="{{ path('order') }}" class="btn btn-primary">Réessayer le paiement</a>
+    </div>
+</div>
+{% endblock %}

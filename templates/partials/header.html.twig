@@ -1,0 +1,67 @@
+<header>
+	<nav class="navbar navbar-expand-lg bg-body bg-gradient" data-bs-theme="dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="{{ path('home')}}">My Boutique</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('products')}}">Nos produits</a>
+					</li>
+				</ul>
+
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item active">
+						<a class="nav-link" href="{{ path('cart') }}">
+							<i class="fas fa-shopping-cart"></i>
+							Panier
+						</a>
+					</li>
+
+					{% if (app.user) %}
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('logout') }}">
+								<i class="fas fa-sign-in-alt"></i>
+								Déconnexion</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="{{path('account')}}">
+								<i class="fas fa-user"></i>
+								Mon compte
+								<small>({{app.user.firstName}})</small>
+							</a>
+						</li>
+					{% else %}
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('register') }}">
+								<i class="fas fa-user-circle"></i>
+								Inscription</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('login') }}">
+								<i class="fas fa-sign-in-alt"></i>
+								Connexion
+							</a>
+						</li>
+					{% endif %}
+				</ul>
+
+			</div>
+		</div>
+	</nav>
+
+
+	{% for label,messages in app.flashes %}
+		<div class="alert alert-{{label}} alert-dismissible fade show" role="alert">
+
+			{% for message in messages %}
+				<strong>{{message}}</strong>
+
+			{% endfor %}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	{% endfor %}
+
+</header>

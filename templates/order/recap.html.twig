@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Récapitulatif de commande{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Récapitulatif de votre commande</h1>
+
+    {% if order %}
+        <div class="card p-4 shadow">
+            <h3>Référence de la commande: <strong>{{ order.reference }}</strong></h3>
+            <p><strong>Date:</strong> {{ order.createdAt|date('d/m/Y H:i') }}</p>
+
+            <h4 class="mt-3">Adresse de livraison:</h4>
+            <p>
+                {{ order.delivery.name }}<br>
+                {{ order.delivery.address }}<br>
+                {{ order.delivery.postal }} {{ order.delivery.city }}<br>
+                {{ order.delivery.country }}
+            </p>
+
+            <h4 class="mt-3">Transporteur:</h4>
+            <p>{{ order.carrier.name }} - {{ (order.carrier.price / 100)|number_format(2) }}€</p>
+
+            <h4 class="mt-3">Produits commandés:</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix Unitaire</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set order_total = 0 %}
+                    {% for detail in order.orderDetails %}
+                        {% set product_total = (detail.quantity * detail.price) / 100 %}
+                        <tr>
+                            <td>{{ detail.product.name }}</td>
+                            <td>{{ detail.quantity }}</td>
+                            <td>{{ (detail.price / 100)|number_format(2) }}€</td>
+                            <td>{{ product_total|number_format(2) }}€</td>
+                        </tr>
+                        {% set order_total = order_total + product_total %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h4 class="mt-3">Total Commande (avec Transporteur):</h4>
+            <p><strong>Total Produits:</strong> {{ order_total|number_format(2) }}€</p>
+            <p><strong>Transport:</strong> {{ (order.carrier.price / 100)|number_format(2) }}€</p>
+            <p><strong>Total:</strong> {{ (order_total + (order.carrier.price / 100))|number_format(2) }}€</p>
+
+            <div class="mt-4">
+                <a href="{{ session.url }}" class="btn btn-success">Passer au paiement</a>
+                <a href="{{ path('cart') }}" class="btn btn-secondary">Modifier ma commande</a>
+            </div>
+        </div>
+    {% else %}
+        <p class="alert alert-warning">Aucune commande trouvée.</p>
+    {% endif %}
+</div>
+{% endblock %}

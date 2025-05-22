@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RegisterController!{% endblock %}
+
+{% block body %}
+
+<h1>INSCRIPTION UTILISATEUR</h1>
+
+{{ form_start(form) }}
+
+  {{form_row(form.firstName)}}
+
+  {{form_row(form.lastName)}}
+
+  {{ form_row(form.email,{'label':false,'attr':{'placeholder':"Entrez votre email"}}) }}
+
+  {{ form_row(form.password,{'label':false,'attr':{'placeholder':"Entrez votre mot de passe"}}) }}
+
+{{ form_row(form.confirmPassword) }}
+{{ form_row(form._token) }}
+
+{{ form_end(form) }}
+
+{% endblock %}

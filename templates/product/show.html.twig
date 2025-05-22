@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+{% block body %}
+
+<div class="row my-5">
+    <div class="card" style="width: 28rem;">
+        <img class="card-img-top" src="/uploads/{{ product.image }}" alt="">
+
+        <div class="card-body">
+        	{% if product.comments is not empty %}
+            <h3 class="card-title">Commentaires</h3>
+
+            <p><strong>Note moyenne:</strong> {{ product.getAvgRating() | number_format(1) }}</p>
+
+            {% set fullStars = product.getAvgRating()|round(0) %}
+            {% set hasHalfStar = (product.getAvgRating() - fullStars) >= 0.5 %}
+            {% set emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0) %}
+
+            <div class="rating-stars">
+                {% for i in 1..fullStars %}
+                    <i class="fas fa-star text-warning"></i>
+                {% endfor %}
+
+                {% if hasHalfStar %}
+                    <i class="fas fa-star-half-alt text-warning"></i>
+                {% endif %}
+
+                {% for i in 1..emptyStars %}
+                    <i class="far fa-star text-warning"></i>
+                {% endfor %}
+            </div>
+
+            {% for comment in product.comments %}
+                <div class="comment">
+                    <p><strong>Rating: 
+                    {% for i in 1..5 %}
+                        {% if i <= comment.rating %}
+                            <i class="fas fa-star"></i>
+                            {% else %}
+                             <i class="far fa-star"></i>   
+                        {% endif %}
+                        
+                    {% endfor %}
+                    </strong></p>
+                    <p class="card-text">{{ comment.content }}</p>
+                </div>
+            {% endfor %}
+            
+        	{% else %}
+           		<p>Aucun commentaire pour ce produit.</p>
+        	{% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.subtitle }}</p>
+        <p>{{ product.description }}</p>
+        <p><strong>{{ (product.price / 100) | number_format(2) }} €</strong></p>
+        <a href="{{ path('add_cart', {'id': product.id}) }}" class="btn btn-primary bg-gradient">Ajouter au panier</a>
+    </div>
+</div>
+
+{% endblock %}

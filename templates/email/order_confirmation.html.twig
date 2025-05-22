@@ -1,0 +1,11 @@
+<h2>Merci pour votre commande, {{ user.firstname }} !</h2>
+
+<p>Voici un récapitulatif :</p>
+
+<ul>
+    {% for detail in order.orderDetails %}
+        <li>{{ detail.product.name }} x {{ detail.quantity }} — {{ (detail.price / 100)|number_format(2) }} €</li>
+    {% endfor %}
+</ul>
+
+<p>Total : <strong>{{ (order.getTotal() / 100)|number_format(2) }} €</strong></p>

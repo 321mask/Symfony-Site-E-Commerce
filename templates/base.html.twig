@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<meta name="description" content="Site créée pendant l'apprentissage de Symfony">
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		{% block stylesheets %}{% endblock %}
+
+
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+		{{ googleAdsence() | raw }}
+	</head>
+	<body>
+
+		{% include "partials/header.html.twig" %}
+
+		<main class="bg-body-tertiary bg-gradient">
+			{% if block('carrousel') is defined %}
+				{% include "partials/carrousel.html.twig" %}
+			{% endif %}
+			<div class="container pt-1 pb-3"> {% block body %}{% endblock %}
+				</div>
+			</main>
+
+			{% include "partials/footer.html.twig" %}
+		</body>
+	</html>

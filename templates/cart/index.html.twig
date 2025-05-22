@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!
+{% endblock %}
+
+{% block body %}
+	<h1>Mon panier</h1>
+	{% if products | length > 0 %}
+		<p class="my-4">
+			Ensemble des produits
+			<a href="{{path('remove_cart')}}" class="btn btn-danger bg-gradient float-end">
+				<i class="far fa-trash-alt"></i>
+				Vider le panier</a>
+		</p>
+
+		<table class="table table-hover table-striped">
+			<thead class="table-dark align-middle text-center">
+				<tr>
+					<th scope="col">Produit</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Prix à l'unité</th>
+					<th scope="col">Quantité</th>
+					<th scope="col">Total</th>
+					<th scope="col"></th>
+
+				</tr>
+			</thead>
+			<tbody class="table-light align-middle text-center">
+				{% set total = 0 %}
+				{% set nbProduct = 0 %}
+
+				{% for product in products %}
+					<tr>
+						<th scope="row">
+							<img src="/uploads/{{ product.product.image }}" alt="" style="height:100px">
+						</th>
+						<td>{{ product.product.name }}</td>
+						<td>{{ (product.product.price / 100) | number_format(2) }}
+							€</td>
+						<td class="text-center">
+							<a href="{{path('minus_cart', { 'id': product.product.id })}}" class="btn btn-secondary bg-gradient btn-sm">
+								<i class="fas fa-minus"></i>
+							</a>
+							{{ product.quantity }}
+							<a href="{{path('add_cart', { 'id': product.product.id })}}" class="btn btn-secondary bg-gradient btn-sm">
+								<i class="fas fa-plus"></i>
+							</a>
+						</td>
+						<td>{{ (product.product.price * product.quantity / 100 )| number_format(2) }}
+							€</td>
+						<td class="text-center">
+							<a class="btn btn-danger bg-gradient " href="{{path('delete_item', { 'id': product.product.id })}}">
+								<i class="far fa-minus-square"></i>
+								Supprimer
+							</a>
+						</td>
+					</tr>
+					{% set total = total + (product.product.price * product.quantity / 100 ) %}
+					{% set nbProduct = nbProduct + 1 %}
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<table class="table table-borderless table-info">
+			<tbody>
+				<tr >
+					<th scope="row" class="text-end">Nombre de produits</th>
+					<td>
+						{{ nbProduct }}
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" class="text-end">Total</th>
+					<td>
+						{{ total | number_format(2) }}
+						€
+					</td>
+				</tr>
+			</tbody>
+		
+		</table>
+
+		<div class="d-grid gap-2">
+			<a href="{{path('order')}}" class="btn btn-success bg-gradient btn-lg">
+				Valider le panier <br> (Total : {{ total | number_format(2) }} €)
+			</a>
+		</div>
+
+	{% else %}
+
+		<div class="alert alert-info" role="alert">
+			<p>Le panier est vide.</p>
+			<a class="btn btn-info bg-gradient" href="{{ path('products')}}">Nos produits</a>
+
+		</div>
+
+	{% endif %}
+
+{% endblock %}

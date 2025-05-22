@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Modifier l'adresse</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <a href="{{ path('account_address') }}" class="btn btn-secondary bg-gradient col-12">Retour</a>
+{% endblock %}
